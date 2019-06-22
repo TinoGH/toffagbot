@@ -41,7 +41,7 @@ class Letters:
         for i in range(length):
             chars = text[max(i - (self.order - 1), 0):i]
             text += self.pick_letter(chars)
-        print(text)
+        return text
     
     def pick_letter(self, chars):
         if len(chars) == 0:
@@ -52,12 +52,14 @@ class Letters:
                     cumul += self.table[char]['iteration']
                     pick_table.append((cumul, char))
             else:
-                return 'e' #trouver une meilleure solution
+                return ' ' #trouver une meilleure solution
             choice = random.randint(1, pick_table[-1][0])
             for i, cumul in enumerate([pick[0] for pick in pick_table]):
                 if choice - cumul <= 0:
                     return pick_table[i][1]
         else:
-            return self.table[chars[0]]['table'].pick_letter(chars[1:])
-            
+            if chars[0] in self.table.keys():
+                return self.table[chars[0]]['table'].pick_letter(chars[1:])
+            else:
+                return ' ' # trouver une meilleure solution
 
