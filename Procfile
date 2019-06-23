@@ -1,1 +1,1 @@
-worker: python toffagbot.py
+worker: python3 toffagbot.py
