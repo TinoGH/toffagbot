@@ -10,7 +10,7 @@ class Letters:
         elif len(args) == 2:
             self.rec = args[1]
         else:
-            raise("too many inputs")
+            raise TypeError("expected at most 2 arguments, got {}".format(len(args)))
         self.table = {}
                 
     def __str__(self):
@@ -30,11 +30,11 @@ class Letters:
             self.learn(chars)
     
     def learn(self, chars):
-            if chars[0] not in self.table.keys():
-                self.table[chars[0]] = {'iteration': 0, 'table': Letters(self.order, self.rec - 1)}
-            self.table[chars[0]]['iteration'] += 1
-            if len(chars) > 1:
-                self.table[chars[0]]['table'].learn(chars[1:])
+        if chars[0] not in self.table.keys():
+            self.table[chars[0]] = {'iteration': 0, 'table': Letters(self.order, self.rec - 1)}
+        self.table[chars[0]]['iteration'] += 1
+        if len(chars) > 1:
+            self.table[chars[0]]['table'].learn(chars[1:])
                 
     def write(self, length):
         text = ""
@@ -52,7 +52,7 @@ class Letters:
                     cumul += self.table[char]['iteration']
                     pick_table.append((cumul, char))
             else:
-                return ' ' #trouver une meilleure solution
+                return ' '
             choice = random.randint(1, pick_table[-1][0])
             for i, cumul in enumerate([pick[0] for pick in pick_table]):
                 if choice - cumul <= 0:
@@ -61,5 +61,5 @@ class Letters:
             if chars[0] in self.table.keys():
                 return self.table[chars[0]]['table'].pick_letter(chars[1:])
             else:
-                return '\n' # trouver une meilleure solution
+                return '\n'
 

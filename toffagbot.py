@@ -1,5 +1,8 @@
+import os
 import discord
 from Letters import Letters
+
+TOKEN = os.environ['TOKEN']
 
 robots = {}
 
@@ -17,15 +20,24 @@ class MyClient(discord.Client):
         
         if message.content.startswith("toffagbot write"):
             if message.author not in robots.keys():
-                await message.channel.send("Sorry I don't know you :/")
+                await message.channel.send("Blup bloup... :/")
             else:
-                await message.channel.send(robots[message.author].write(100))
+                text = robots[message.author].write(100)
+                if len(text) > 0:
+                    await message.channel.send(robots[message.author].write(100))
+                else:
+                    await message.channel.send("Blup bloup... :/")
+
         elif message.content.startswith("toffagbot learn"):
             async for message in message.channel.history(limit=10000):
                 if message.author not in robots.keys():
                     robots[message.author] = Letters(6)
                 robots[message.author].read(message.content + "\n")
             await message.channel.send("blip bloup blip... blipblip!")
+
+        elif message.content.startswith("toffagbot"):
+            await message.channel.send("Blop? Oo")
+
         else:
             if message.author not in robots.keys():
                 robots[message.author] = Letters(6)
@@ -35,11 +47,4 @@ class MyClient(discord.Client):
 client = MyClient()
 
 
-def read_token():
-    with open('token.txt', 'r') as f:
-        lines = f.readlines()
-        return lines[0].strip()
-
-
-token = read_token()
-client.run(token)
+client.run(TOKEN)
