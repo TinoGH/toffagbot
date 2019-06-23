@@ -21,10 +21,11 @@ class MyClient(discord.Client):
             else:
                 await message.channel.send(robots[message.author].write(100))
         elif message.content.startswith("toffagbot learn"):
-            async for message in message.channel.history(limit=1000):
+            async for message in message.channel.history(limit=10000):
                 if message.author not in robots.keys():
                     robots[message.author] = Letters(6)
                 robots[message.author].read(message.content + "\n")
+            await message.channel.send("blip bloup blip... blipblip!")
         else:
             if message.author not in robots.keys():
                 robots[message.author] = Letters(6)

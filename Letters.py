@@ -61,5 +61,5 @@ class Letters:
             if chars[0] in self.table.keys():
                 return self.table[chars[0]]['table'].pick_letter(chars[1:])
             else:
-                return ' ' # trouver une meilleure solution
+                return '\n' # trouver une meilleure solution
 
